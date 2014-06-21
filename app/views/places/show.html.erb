@@ -1,37 +1,43 @@
-<p>
-  <strong>Name:</strong>
-  <%= @place.name %>
-</p>
+<h3>Places created</h3>
 
-<p>
-  <strong>Address:</strong>
-  <%= @place.address %>
-</p>
+<div class="row">
+  <div class="span9">
 
-<p>
-  <strong>Latitude:</strong>
-  <%= @place.latitude %>
-</p>
+  </div>
 
-<p>
-  <strong>Longitude:</strong>
-  <%= @place.longitude %>
-</p>
+  <div class="span3">
+    <p><b>Name: </b><%= @place.name %></p>
 
-<p>
-  <strong>Description:</strong>
-  <%= @place.description %>
-</p>
 
-<p>
-  <strong>Picture:</strong>
-  <%= @place.picture %>
-</p>
 
-<p>
-  <strong>User:</strong>
-  <%= @place.user_id %>
-</p>
+    <p><b>Description: </b><%= @place.description %></p>
+    <p><b>Address: </b><%= @place.address %></p>
+    <p><b>Latitude: </b><%= @place.latitude %></p>
+    <p><b>Longitude: </b><%= @place.longitude %></p>
+    <p><b>Creator ID: </b><%= @place.user_id %></p>
 
-<%= link_to 'Edit', edit_place_path(@place) %> |
+  <p>
+      <%= link_to 'Edit', edit_place_path(@place) %> |
 <%= link_to 'Back', places_path %>
+    </p>
+  </div>
+</div>
+
+<h3>Comments</h3>
+<% @comments.each do |comment| %>
+  <div>
+    <strong><%= comment.user_id %></strong>
+    <br />
+    <p><%= comment.body %></p>
+
+ <% if user_signed_in? %>
+	  <% if current_user.id == comment.user_id %>
+
+    <p><%= link_to 'Delete', comment_path(comment), method: :delete, data: { confirm: 'Are you sure?' } %></p>
+
+  <% end %>
+	<% end %>
+
+  </div>
+<% end %>
+<%= render 'comments/form' %>
